@@ -7,7 +7,7 @@ Press left or right arrow keys to move ball in that direction once
 
 Features:
 
-Instanced high score (does not stay after code is exited)
-Lives
-Difficulty ramping (Obstacles speed up)
-Exit menu
+- Instanced high score (does not stay after code is exited)
+- Lives
+- Difficulty ramping (Obstacles speed up)
+- Exit menu
