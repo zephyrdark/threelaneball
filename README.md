@@ -1,9 +1,9 @@
 # threelaneball
-Simple movement collision game to test my beginner skills
-\nMade in Python, using pygame and random modules
+Simple movement collision game to test my beginner skills  
+Made in Python, using pygame and random modules
 
-Collect balls as they fall
-\nPress left or right arrow keys to move ball in that direction once
+Collect balls as they fall  
+Press left or right arrow keys to move ball in that direction once
 
 Features:
 
