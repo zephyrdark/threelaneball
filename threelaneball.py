@@ -17,7 +17,7 @@ def menu():
         text_score = font.render('Score: ' + str(score), True, (0, 0, 0))
         # temp block - text_miss = font.render('Miss: ' + str(miss), True, (0, 0, 0))
         text_menu1 = menu_font.render('Press Escape to exit', True, (0, 0, 0))
-        text_menu2 = menu_font.render('Press any key to continue', True, (0, 0, 0))
+        text_menu2 = menu_font.render('Press Enter to continue', True, (0, 0, 0))
 
         # add rendered images to screen
         screen.blit(text_hiscore, (0, 0))
@@ -42,8 +42,8 @@ def menu():
                         print('run = False')
                         print('quit()')
                         quit()
-                    elif menu_event.key != pygame.K_ESCAPE:
-                        print('\nkey pressed, not escape')
+                    elif menu_event.key == pygame.K_RETURN:
+                        print('\nkey pressed, enter')
                         response = False
                         print('event for loop break')
                         break
@@ -157,6 +157,7 @@ while run:
     if life < 1:
         life = 3
         score = 0
+        tick = 30
         menu()
 
     pygame.display.flip()
