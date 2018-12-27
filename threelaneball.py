@@ -145,8 +145,9 @@ while run:
     if obstacle_x_pos == player_x_pos:
         if obstacle_y_pos == player_y_pos:
             score += 1
-            hiscore += 1
             tick += 1
+            if score >= highscore:
+                hiscore += 1
 
     # miss counting
     if obstacle_y_pos == player_y_pos:
