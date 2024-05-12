@@ -14,3 +14,7 @@ Features:
 - Lives
 - Difficulty ramping (Obstacles speed up)
 - Exit menu
+
+# TO-DO:
+1. Refactor code
+2. Add features

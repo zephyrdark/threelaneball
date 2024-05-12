@@ -52,9 +52,11 @@ def menu():
     print('return from menu()')
     return
 
+# player dimensions, screen dimensions, font type, line placements
+player_diameter = 120
+stage_size = 5 # TO-DO: Feature: Select stage_size before game starts
 
-# screen dimensions, font type, player dimensions, line placements
-screen_width = 400
+screen_width = player_diameter * stage_size
 screen_height = 540
 
 font = pygame.font.SysFont('franklingothicbook', 21)
@@ -64,19 +66,24 @@ hiscore = 0
 miss = 0
 life = 3
 
-player_diameter = round(screen_width/3)
-player_x_pos = round((screen_width/2))
+player_x_pos = round((screen_width/stage_size)+(round(player_diameter/2)))
 player_y_pos = round(screen_height-(round(player_diameter/2)))
 
-obstacle_diameter = round(screen_width/6)
+obstacle_diameter = round(player_diameter/2)
 obstacle_x_pos = round((screen_width/2))
-obstacle_x_random = [round((screen_width/2)), round((screen_width/2))-round(screen_width/3),
-                     round((screen_width/2))+round(screen_width/3)]
+# TO-DO: Refactor list of possible obstacle spawn points using list comprehension, based on player diameter
+# obstacle_x_random = [round((screen_width/2)), round((screen_width/2))-round(screen_width/3),
+#                      round((screen_width/2))+round(screen_width/3)]
+obstacle_x_random = [player_diameter*(size+1) for size in range(stage_size)]
+print(obstacle_x_random, screen_width)
+
 obstacle_y_pos = round(obstacle_diameter/2)
 obstacle_y_speed = 10
 
-line_list = [(player_diameter, 0), (player_diameter, screen_height)]
-line_list2 = [(player_diameter*2, 0), (player_diameter*2, screen_height)]
+# generate coordinates of lanes to draw later
+lanes_list = []
+for i in range(stage_size):
+    lanes_list.append([((player_diameter*i)-1,0), ((player_diameter*i)-1, screen_height)])
 
 # make screen, title
 screen = pygame.display.set_mode([screen_width, screen_height])
@@ -97,8 +104,8 @@ while run:
     screen.fill((255, 255, 255))
 
     # draw lane lines
-    pygame.draw.lines(screen, (0, 0, 0), True, line_list, 2)
-    pygame.draw.lines(screen, (0, 0, 0), True, line_list2, 2)
+    for lane in lanes_list:
+        pygame.draw.lines(screen, (0, 0, 0), True, lane, 2)
 
     # add rendered text images to screen
     screen.blit(text_hiscore, (0, 0))
@@ -124,37 +131,41 @@ while run:
 
             # left right keys to set player x positions for player drawing
             if events.key == pygame.K_LEFT:
-                player_x_pos -= round(screen_width/3)
+                player_x_pos -= round(player_diameter)
             if events.key == pygame.K_RIGHT:
-                player_x_pos += round(screen_width/3)
+                player_x_pos += round(player_diameter)
 
-    # prevents player from moving out of x bounds
+    # if player moves out of x bounds, reset player_x_pos to respective side of screen
     if player_x_pos < 0:
-        player_x_pos = round((screen_width/2)) - round(screen_width/3)
+        player_x_pos = round(player_diameter/2)
     if player_x_pos > screen_width:
-        player_x_pos = round((screen_width/2)) + round(screen_width/3)
+        player_x_pos = round(screen_width - player_diameter/2)
 
     # obstacle movement check & loop
     if 0 < obstacle_y_pos < screen_height:
         obstacle_y_pos += obstacle_y_speed
-    if obstacle_y_pos >= screen_height-30:
-        obstacle_y_pos = round(obstacle_diameter/2)
-        obstacle_x_pos = random.choice(obstacle_x_random)
 
     # score counting
-    if obstacle_x_pos == player_x_pos:
-        if obstacle_y_pos == player_y_pos:
+    if obstacle_y_pos == player_y_pos:
+        if obstacle_x_pos <= player_x_pos+1 and obstacle_x_pos >= player_x_pos-1:
+            score += 1
+            tick += 1
+        if score >= hiscore+1:
+            hiscore += 1
+
+    # miss counting
+    if obstacle_y_pos >= player_y_pos:
+        if obstacle_x_pos != player_x_pos:
+            miss += 1
+            life -= 1
+        elif obstacle_x_pos <= player_x_pos+1 and obstacle_x_pos >= player_x_pos-1:
             score += 1
             tick += 1
             if score >= hiscore+1:
                 hiscore += 1
-
-    # miss counting
-    if obstacle_y_pos == player_y_pos:
-        if obstacle_x_pos != player_x_pos:
-            miss += 1
-            life -= 1
-
+        obstacle_y_pos = round(obstacle_diameter/4)
+        obstacle_x_pos = random.choice(obstacle_x_random)-round(obstacle_diameter)
+        
     if life < 1:
         life = 3
         score = 0
