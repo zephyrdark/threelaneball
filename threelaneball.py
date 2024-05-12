@@ -71,9 +71,6 @@ player_y_pos = round(screen_height-(round(player_diameter/2)))
 
 obstacle_diameter = round(player_diameter/2)
 obstacle_x_pos = round((screen_width/2))
-# TO-DO: Refactor list of possible obstacle spawn points using list comprehension, based on player diameter
-# obstacle_x_random = [round((screen_width/2)), round((screen_width/2))-round(screen_width/3),
-#                      round((screen_width/2))+round(screen_width/3)]
 obstacle_x_random = [player_diameter*(size+1) for size in range(stage_size)]
 print(obstacle_x_random, screen_width)
 

@@ -17,4 +17,6 @@ Features:
 
 # TO-DO:
 1. Refactor code
+    - Rename 'obstacle' variable name to a more appropriate one
 2. Add features
+    - Stage size selection
