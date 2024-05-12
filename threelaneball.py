@@ -54,7 +54,7 @@ def menu():
 
 # player dimensions, screen dimensions, font type, line placements
 player_diameter = 120
-stage_size = 5 # TO-DO: Feature: Select stage_size before game starts
+stage_size = 4 # TO-DO: Feature: Select stage_size before game starts
 
 screen_width = player_diameter * stage_size
 screen_height = 540
@@ -70,8 +70,8 @@ player_x_pos = round((screen_width/stage_size)+(round(player_diameter/2)))
 player_y_pos = round(screen_height-(round(player_diameter/2)))
 
 obstacle_diameter = round(player_diameter/2)
-obstacle_x_pos = round((screen_width/2))
 obstacle_x_random = [player_diameter*(size+1) for size in range(stage_size)]
+obstacle_x_pos = random.choice(obstacle_x_random)-round(obstacle_diameter)
 print(obstacle_x_random, screen_width)
 
 obstacle_y_pos = round(obstacle_diameter/2)
